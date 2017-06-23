@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="SeidorDemo.Views.DocumentsPage"
+    xmlns:local="clr-namespace:SeidorDemo.Controls;assembly=SeidorDemo"
+    Title="{Binding Title}"
+    x:Name="DocumentsPage">
+
+    <ContentPage.ToolbarItems>
+            <ToolbarItem Text="Load Documents" Icon="ic_cloud.png" Command="{Binding GetDocumentsCommand}" />
+    </ContentPage.ToolbarItems>
+	<ContentPage.Content>
+        <StackLayout Spacing="0">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+
+            <ListView x:Name="ListViewDocuments" SeparatorVisibility="None"
+                    HasUnevenRows="true" ItemsSource="{Binding Documents}" >   
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:ExtendedViewCell SelectedBackgroundColor="White">
+                            <ViewCell.View>
+                                <Frame  OutlineColor="#4CAF50" HasShadow="false"  BackgroundColor="Transparent" Margin="5" Padding="5">
+                                    <StackLayout  Orientation="Horizontal"   VerticalOptions ="CenterAndExpand"
+                                        Padding="5">
+                                        <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding Name}" TextColor="Black"></Label>
+                                            <Label Text = "{Binding Url}" TextColor="Gray"></Label>
+                                        </StackLayout>
+                                        <Image Source = "{Binding ImageFilename}">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Source={x:Reference DocumentsPage}, BindingContext.ShowDetailCommand}"
+                                                    CommandParameter="{Binding Url}"
+                                                    NumberOfTapsRequired="1"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell.View>
+                        </local:ExtendedViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>
